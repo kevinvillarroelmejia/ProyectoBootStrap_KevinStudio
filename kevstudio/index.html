@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KevStudio – Moda Urbana</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- TOAST -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index:1200">
+    <div id="toastCarrito" class="toast align-items-center text-bg-dark border-0"
+         role="alert" aria-live="assertive" aria-atomic="true"
+         data-bs-autohide="true" data-bs-delay="3000">
+      <div class="d-flex">
+        <div class="toast-body">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>
+          <span id="toastMsg">Producto añadido al carrito</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark ks-navbar fixed-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand ks-brand" href="#">
+        <span class="ks-logo-k">K</span>ev<span class="ks-logo-s">Studio</span>
+      </a>
+      <button class="navbar-toggler" type="button"
+              data-bs-toggle="collapse" data-bs-target="#navbarMain"
+              aria-controls="navbarMain" aria-expanded="false" aria-label="Abrir menú">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarMain">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-1">
+          <li class="nav-item"><a class="nav-link active" href="#inicio">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#catalogo">Catálogo</a></li>
+          <li class="nav-item"><a class="nav-link" href="#secHombre">Hombre</a></li>
+          <li class="nav-item"><a class="nav-link" href="#secMujer">Mujer</a></li>
+          <li class="nav-item"><a class="nav-link" href="#secNovedades">Novedades</a></li>
+          <li class="nav-item"><a class="nav-link" href="#secOutlet">Outlet</a></li>
+          <li class="nav-item"><a class="nav-link" href="#newsletter">Club KS</a></li>
+        </ul>
+        <div class="d-flex align-items-center mt-3 mt-lg-0">
+          <button class="btn ks-btn-cart position-relative"
+                  data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-label="Abrir carrito">
+            <i class="bi bi-bag fs-5"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill ks-badge" id="cartCount">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- OFFCANVAS CARRITO -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCarrito" aria-labelledby="offcanvasLabel">
+    <div class="offcanvas-header ks-offcanvas-header">
+      <h5 class="offcanvas-title fw-bold" id="offcanvasLabel"><i class="bi bi-bag me-2"></i>Tu carrito</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column">
+      <p id="carritoVacio" class="text-muted mt-3">Tu carrito está vacío. ¡Añade algo de estilo!</p>
+      <ul class="list-group list-group-flush" id="carritoItems"></ul>
+      <div class="mt-auto pt-3 border-top">
+        <div class="d-flex justify-content-between fw-semibold mb-3">
+          <span>Total</span><span id="carritoTotal">0,00 €</span>
+        </div>
+        <button class="btn ks-btn-primary w-100">Finalizar compra</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DINÁMICO -->
+  <div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content ks-modal-content">
+        <div class="modal-header ks-modal-header">
+          <h5 class="modal-title fw-bold" id="modalLabel">Detalle</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-4">
+            <div class="col-md-5">
+              <img id="modalImg"  alt="" class="img-fluid rounded-3 w-100 ks-modal-img" />
+            </div>
+            <div class="col-md-7 d-flex flex-column justify-content-between">
+              <div>
+                <span class="badge ks-badge-cat mb-2" id="modalCat"></span>
+                <div class="mb-2 d-flex align-items-baseline flex-wrap gap-2">
+                  <span class="ks-modal-precio" id="modalPrecio"></span>
+                  <span class="ks-price-old" id="modalPrecioOld"></span>
+                  <span class="badge bg-danger" id="modalDescuento"></span>
+                </div>
+                <p class="text-muted" id="modalDesc"></p>
+                <div class="mb-3">
+                  <span class="fw-semibold d-block mb-2">Talla:</span>
+                  <div class="btn-group flex-wrap" role="group">
+                    <input type="radio" class="btn-check" name="tallaModal" id="tmXS" autocomplete="off"><label class="btn btn-outline-dark btn-sm" for="tmXS">XS</label>
+                    <input type="radio" class="btn-check" name="tallaModal" id="tmS"  autocomplete="off" checked><label class="btn btn-outline-dark btn-sm" for="tmS">S</label>
+                    <input type="radio" class="btn-check" name="tallaModal" id="tmM"  autocomplete="off"><label class="btn btn-outline-dark btn-sm" for="tmM">M</label>
+                    <input type="radio" class="btn-check" name="tallaModal" id="tmL"  autocomplete="off"><label class="btn btn-outline-dark btn-sm" for="tmL">L</label>
+                    <input type="radio" class="btn-check" name="tallaModal" id="tmXL" autocomplete="off"><label class="btn btn-outline-dark btn-sm" for="tmXL">XL</label>
+                  </div>
+                </div>
+                <div class="d-flex align-items-center gap-1 mb-3">
+                  <span id="modalEstrellas"></span>
+                  <small class="text-muted ms-1" id="modalResenas"></small>
+                </div>
+                <ul class="list-unstyled small text-muted mb-0" id="modalFeatures"></ul>
+              </div>
+              <div class="d-flex gap-2 mt-3">
+                <button id="modalBtnAdd" class="btn ks-btn-primary flex-grow-1" data-bs-dismiss="modal">
+                  <i class="bi bi-bag-plus me-2"></i>Añadir al carrito
+                </button>
+                <button class="btn btn-outline-dark"><i class="bi bi-heart"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ CARRUSEL ═══ -->
+  <section id="inicio">
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4500">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+        <!-- FOTO 1 – Catálogo general -->
+        <div class="carousel-item active">
+          <div class="ks-slide" style="background-image:url('img/hero/hero1.jpg')">
+            <div class="ks-slide-overlay"></div>
+            <div class="container ks-slide-inner">
+              <div class="ks-slide-content">
+                <p class="ks-overline">Nueva Colección 2026</p>
+                <h1 class="ks-hero-title">VISTE TU<br>ACTITUD</h1>
+                <p class="ks-hero-subtitle">Prendas urbanas que hablan por ti. Sin filtros.</p>
+                <a href="#catalogo" class="btn ks-btn-primary btn-lg mt-3">Ver Catálogo</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- FOTO 2 – Novedades abrigos (apunta a #secNovedades) -->
+        <div class="carousel-item">
+          <div class="ks-slide" style="background-image:url('img/hero/hero2.jpg')">
+            <div class="ks-slide-overlay"></div>
+            <div class="container ks-slide-inner">
+              <div class="ks-slide-content">
+                <p class="ks-overline">Otoño - Invierno 2026</p>
+                <h1 class="ks-hero-title">ABRIGOS<br>ICÓNICOS</h1>
+                <p class="ks-hero-subtitle">Calidez y estilo en cada capa.</p>
+                <a href="#secNovedades" class="btn ks-btn-primary btn-lg mt-3">Ver Novedades</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- FOTO 3 – Outlet -->
+        <div class="carousel-item">
+          <div class="ks-slide" style="background-image:url('img/hero/hero3.jpg')">
+            <div class="ks-slide-overlay"></div>
+            <div class="container ks-slide-inner justify-content-end">
+              <div class="ks-slide-content text-end">
+                <p class="ks-overline">Edición Limitada</p>
+                <h1 class="ks-hero-title">DROPS<br>EXCLUSIVOS</h1>
+                <p class="ks-hero-subtitle">Solo 48 horas. No te quedes sin el tuyo.</p>
+                <a href="#secOutlet" class="btn ks-btn-outline btn-lg mt-3">Ver Outlet</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span><span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span><span class="visually-hidden">Siguiente</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- CATEGORÍAS RÁPIDAS -->
+  <section class="py-4 bg-light">
+    <div class="container">
+      <div class="row g-3 text-center">
+        <div class="col-6 col-md-3">
+          <a href="#secHombre" class="ks-cat-pill d-flex flex-column align-items-center justify-content-center text-decoration-none">
+            <i class="bi bi-person-standing fs-2 mb-2"></i><span class="fw-semibold">Hombre</span>
+          </a>
+        </div>
+        <div class="col-6 col-md-3">
+          <a href="#secMujer" class="ks-cat-pill d-flex flex-column align-items-center justify-content-center text-decoration-none">
+            <i class="bi bi-person-standing-dress fs-2 mb-2"></i><span class="fw-semibold">Mujer</span>
+          </a>
+        </div>
+        <div class="col-6 col-md-3">
+          <a href="#secNovedades" class="ks-cat-pill d-flex flex-column align-items-center justify-content-center text-decoration-none">
+            <i class="bi bi-stars fs-2 mb-2"></i><span class="fw-semibold">Novedades</span>
+          </a>
+        </div>
+        <div class="col-6 col-md-3">
+          <a href="#secOutlet" class="ks-cat-pill d-flex flex-column align-items-center justify-content-center text-decoration-none">
+            <i class="bi bi-tag-fill fs-2 mb-2"></i><span class="fw-semibold">Outlet</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CATÁLOGO GENERAL ═══ -->
+  <section id="catalogo" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="ks-section-overline">Lo más vendido</p>
+        <h2 class="ks-section-title">NUESTRO CATÁLOGO</h2>
+        <div class="ks-divider mx-auto"></div>
+      </div>
+      <div class="row g-4" id="gridCatalogo"></div>
+    </div>
+  </section>
+
+  <!-- ═══ SECCIÓN HOMBRE ═══ -->
+  <section id="secHombre" class="py-5 bg-light">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="ks-section-overline">Colección</p>
+        <h2 class="ks-section-title">HOMBRE</h2>
+        <div class="ks-divider mx-auto"></div>
+      </div>
+      <div class="row g-4 justify-content-center" id="gridHombre"></div>
+    </div>
+  </section>
+
+  <!-- ═══ SECCIÓN MUJER ═══ -->
+  <section id="secMujer" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="ks-section-overline">Colección</p>
+        <h2 class="ks-section-title">MUJER</h2>
+        <div class="ks-divider mx-auto"></div>
+      </div>
+      <div class="row g-4 justify-content-center" id="gridMujer"></div>
+    </div>
+  </section>
+
+  <!-- ═══ NOVEDADES – ABRIGOS OTOÑO ═══ -->
+  <section id="secNovedades" class="py-5 ks-novedades-bg">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="ks-section-overline" style="color:var(--ks-accent2)">Recién llegado</p>
+        <h2 class="ks-section-title text-white">NOVEDADES</h2>
+        <p class="text-white opacity-75 mt-2 mb-0">Abrigos de otoño–invierno 2026 con carácter.</p>
+        <div class="ks-divider mx-auto mt-3"></div>
+      </div>
+      <div class="row g-4 justify-content-center" id="gridNovedades"></div>
+    </div>
+  </section>
+
+  <!-- ═══ OUTLET ═══ -->
+  <section id="secOutlet" class="py-5 bg-light">
+    <div class="container">
+      <div class="text-center mb-4">
+        <p class="ks-section-overline">Precios especiales</p>
+        <h2 class="ks-section-title">OUTLET</h2>
+        <p class="text-muted mt-2 mb-0">Últimas unidades con descuentos exclusivos.</p>
+        <div class="ks-divider mx-auto mt-3"></div>
+      </div>
+      <div class="alert ks-outlet-banner d-flex align-items-center gap-3 mb-4" role="alert">
+        <i class="bi bi-lightning-charge-fill fs-4 flex-shrink-0"></i>
+        <span><strong>¡Hasta un 60% de descuento!</strong> Solo mientras haya stock. Sin reposición.</span>
+      </div>
+      <div class="row g-4 justify-content-center" id="gridOutlet"></div>
+    </div>
+  </section>
+
+  <!-- ═══ NEWSLETTER ═══ -->
+  <section id="newsletter" class="py-5 ks-newsletter">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center text-white">
+          <i class="bi bi-envelope-heart-fill fs-1 mb-3 d-block ks-icon-accent"></i>
+          <h2 class="ks-section-title text-white">ÚNETE AL CLUB</h2>
+          <p class="mb-4 opacity-75">Recibe acceso anticipado a drops exclusivos, descuentos y looks de temporada.</p>
+          <div id="alertNewsletterOk" class="alert ks-alert-success mb-4 d-none" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <strong>¡Ya eres parte del club!</strong> Revisa tu bandeja de entrada.
+          </div>
+          <form id="formNewsletter" class="needs-validation" novalidate>
+            <div class="row g-3 justify-content-center">
+              <div class="col-sm-5">
+                <input type="text" class="form-control form-control-lg ks-input"
+                       id="inputNombre" placeholder="Tu nombre" required minlength="2" />
+                <div class="invalid-feedback text-start">Introduce tu nombre (mín. 2 caracteres).</div>
+                <div class="valid-feedback text-start">¡Genial!</div>
+              </div>
+              <div class="col-sm-5">
+                <input type="email" class="form-control form-control-lg ks-input"
+                       id="inputEmail" placeholder="tu@email.com" required />
+                <div class="invalid-feedback text-start">Introduce un email válido.</div>
+                <div class="valid-feedback text-start">¡Perfecto!</div>
+              </div>
+              <div class="col-sm-2">
+                <button type="submit" class="btn ks-btn-primary btn-lg w-100">
+                  <i class="bi bi-send-fill"></i>
+                </button>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center align-items-start gap-2 mt-3">
+              <input class="form-check-input mt-1" type="checkbox" id="checkPriv" required />
+              <label class="form-check-label small opacity-75 text-start" for="checkPriv">
+                Acepto la <a href="#" class="ks-link-light">política de privacidad</a> y el envío de comunicaciones.
+              </label>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PIE DE PAGINA -->
+  <footer id="footer" class="ks-footer py-5">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <p class="ks-brand fs-3 mb-2">
+            <span class="ks-logo-k">K</span>ev<span class="ks-logo-s">Studio</span>
+          </p>
+          <p class="text-muted small">Moda urbana para los que no piden permiso para brillar. Diseñado desde Madrid con actitud global.</p>
+          <div class="d-flex gap-3 mt-3">
+            <a href="#" class="ks-social-link" aria-label="Instagram"><i class="bi bi-instagram fs-5"></i></a>
+            <a href="#" class="ks-social-link" aria-label="TikTok"><i class="bi bi-tiktok fs-5"></i></a>
+            <a href="#" class="ks-social-link" aria-label="Twitter/X"><i class="bi bi-twitter-x fs-5"></i></a>
+            <a href="#" class="ks-social-link" aria-label="Pinterest"><i class="bi bi-pinterest fs-5"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-6">
+          <h6 class="ks-footer-heading">Tienda</h6>
+          <ul class="list-unstyled ks-footer-links">
+            <li><a href="#secHombre">Hombre</a></li>
+            <li><a href="#secMujer">Mujer</a></li>
+            <li><a href="#secNovedades">Novedades</a></li>
+            <li><a href="#secOutlet">Outlet</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-6">
+          <h6 class="ks-footer-heading">Ayuda</h6>
+          <ul class="list-unstyled ks-footer-links">
+            <li><a href="#">Cómo comprar</a></li>
+            <li><a href="#">Envíos y devoluciones</a></li>
+            <li><a href="#">Tallas y medidas</a></li>
+            <li><a href="#">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <h6 class="ks-footer-heading">Contacto</h6>
+          <ul class="list-unstyled ks-footer-links">
+            <li><i class="bi bi-geo-alt me-2 ks-icon-accent"></i>Calle Gran Vía 28, Madrid</li>
+            <li><i class="bi bi-envelope me-2 ks-icon-accent"></i>hola@kevstudio.es</li>
+            <li><i class="bi bi-telephone me-2 ks-icon-accent"></i>+34 910 000 000</li>
+          </ul>
+        </div>
+      </div>
+      <hr class="ks-hr mt-5" />
+      <div class="row align-items-center">
+        <div class="col-md-6 text-center text-md-start">
+          <small class="text-muted">&copy; 2026 KevStudio. Todos los derechos reservados.</small>
+        </div>
+        <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
+          <a href="#" class="ks-footer-link-sm me-3">Aviso legal</a>
+          <a href="#" class="ks-footer-link-sm me-3">Privacidad</a>
+          <a href="#" class="ks-footer-link-sm">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

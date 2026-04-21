@@ -1,0 +1,331 @@
+
+
+:root {
+  --ks-black:   #0d0d0d;
+  --ks-dark:    #1a1a1a;
+  --ks-charcoal:#2b2b2b;
+  --ks-accent:  #e63946;
+  --ks-accent2: #f4a261;
+  --ks-light:   #f5f5f0;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+}
+
+/* ---- Base ---- */
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  padding-top: 72px;
+}
+
+/* ---- NAVBAR ---- */
+.ks-navbar {
+  background-color: var(--ks-black) !important;
+  min-height: 72px;
+}
+.ks-brand {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  color: #fff !important;
+  text-decoration: none;
+}
+.ks-logo-k, .ks-logo-s { color: var(--ks-accent); }
+
+.ks-btn-cart {
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,.3);
+  color: #fff;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s, border-color .2s;
+}
+.ks-btn-cart:hover { background: var(--ks-accent); border-color: var(--ks-accent); color: #fff; }
+
+.ks-badge { background-color: var(--ks-accent) !important; font-size: .65rem; }
+
+/* ---- BOTONES ---- */
+.ks-btn-primary {
+  background-color: var(--ks-accent);
+  border-color: var(--ks-accent);
+  color: #fff;
+  font-family: var(--font-display);
+  letter-spacing: 1.5px;
+  font-size: 1rem;
+  border-radius: 2px;
+  transition: background .2s, transform .15s;
+}
+.ks-btn-primary:hover, .ks-btn-primary:focus {
+  background-color: #c1121f;
+  border-color: #c1121f;
+  color: #fff;
+  transform: translateY(-2px);
+}
+.ks-btn-outline {
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  font-family: var(--font-display);
+  letter-spacing: 1.5px;
+  font-size: 1rem;
+  border-radius: 2px;
+  transition: background .2s, color .2s;
+}
+.ks-btn-outline:hover { background: #fff; color: var(--ks-black); }
+
+/* ---- HERO / CAROUSEL ---- */
+.ks-slide {
+  width: 100%;
+  height: 100vh;
+  min-height: 480px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.ks-slide-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(13,13,13,.82) 0%, rgba(13,13,13,.3) 100%);
+}
+.ks-slide-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding-top: 72px;   /* navbar height */
+}
+.ks-slide-content { max-width: 560px; }
+
+.ks-overline {
+  font-size: .8rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--ks-accent);
+  margin-bottom: .5rem;
+}
+.ks-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 7rem);
+  line-height: .95;
+  letter-spacing: 2px;
+  color: #fff;
+}
+.ks-hero-subtitle {
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: rgba(255,255,255,.8);
+}
+
+/* ---- CATEGORÍAS ---- */
+.ks-cat-pill {
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1.5rem 1rem;
+  color: var(--ks-black);
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+.ks-cat-pill:hover {
+  border-color: var(--ks-accent);
+  box-shadow: 0 8px 24px rgba(230,57,70,.12);
+  transform: translateY(-4px);
+  color: var(--ks-accent);
+}
+
+
+.ks-section-overline {
+  font-size: .75rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--ks-accent);
+  margin-bottom: .25rem;
+}
+.ks-section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  letter-spacing: 2px;
+}
+.ks-divider {
+  width: 60px;
+  height: 3px;
+  background: var(--ks-accent);
+  border-radius: 2px;
+  margin-top: .75rem;
+}
+
+
+.ks-product-card {
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,.07);
+  transition: transform .25s, box-shadow .25s;
+}
+.ks-product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,.12);
+}
+.ks-product-img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  background: var(--ks-light);
+}
+.ks-product-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .45s ease;
+}
+.ks-product-card:hover .ks-product-img-wrap img { transform: scale(1.06); }
+
+.ks-product-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: .7rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+.badge-nuevo  { background: var(--ks-black); color: #fff; }
+.badge-oferta { background: var(--ks-accent); color: #fff; }
+
+.ks-product-name {
+  font-weight: 600;
+  font-size: .95rem;
+  margin-bottom: .25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ks-price {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+  color: var(--ks-black);
+}
+.ks-price-old {
+  font-size: .85rem;
+  text-decoration: line-through;
+  color: #6c757d;
+  margin-left: 6px;
+}
+.ks-btn-add {
+  background: var(--ks-black);
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  font-size: .8rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  transition: background .2s;
+  white-space: nowrap;
+}
+.ks-btn-add:hover { background: var(--ks-accent); color: #fff; }
+.ks-btn-detail {
+  border: 1.5px solid #e0e0e0;
+  background: transparent;
+  color: var(--ks-black);
+  border-radius: 2px;
+  padding: 8px 12px;
+  transition: border-color .2s;
+}
+.ks-btn-detail:hover { border-color: var(--ks-black); }
+
+
+.ks-offcanvas-header { background: var(--ks-black); color: #fff; }
+
+
+.ks-modal-content { border: none; border-radius: 12px; overflow: hidden; }
+.ks-modal-header  { background: var(--ks-black); color: #fff; }
+.ks-modal-img     { aspect-ratio: 4/5; object-fit: cover; }
+.ks-modal-precio  {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  color: var(--ks-accent);
+  display: inline;
+}
+.ks-badge-cat {
+  background: var(--ks-accent);
+  font-size: .7rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 2px;
+}
+
+/* ---- PIE DE PAGINA ---- */
+.ks-newsletter {
+  background: linear-gradient(135deg, var(--ks-black) 0%, var(--ks-charcoal) 100%);
+}
+.ks-input {
+  border-radius: 2px;
+  border: 1.5px solid rgba(255,255,255,.2);
+  background: rgba(255,255,255,.08);
+  color: #fff;
+}
+.ks-input::placeholder { color: rgba(255,255,255,.5); }
+.ks-input:focus {
+  border-color: var(--ks-accent);
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(230,57,70,.25);
+}
+.ks-icon-accent { color: var(--ks-accent); }
+.ks-alert-success {
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.2);
+  color: #fff;
+  border-radius: 4px;
+  padding: .75rem 1rem;
+}
+.ks-link-light { color: var(--ks-accent2); text-decoration: underline; }
+
+
+.ks-footer { background: var(--ks-black); color: #adb5bd; }
+.ks-footer-heading {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+.ks-footer-links { display: flex; flex-direction: column; gap: .5rem; }
+.ks-footer-links a, .ks-footer-links li { color: #adb5bd; text-decoration: none; font-size: .9rem; transition: color .2s; }
+.ks-footer-links a:hover { color: var(--ks-accent); }
+.ks-social-link { color: #adb5bd; text-decoration: none; transition: color .2s, transform .2s; display: inline-block; }
+.ks-social-link:hover { color: var(--ks-accent); transform: translateY(-3px); }
+.ks-hr { border-color: rgba(255,255,255,.1); }
+.ks-footer-link-sm { color: #6c757d; text-decoration: none; font-size: .8rem; transition: color .2s; }
+.ks-footer-link-sm:hover { color: var(--ks-accent); }
+
+@media (max-width: 575.98px) {
+  .ks-slide { height: 85vh; }
+  .ks-hero-title { font-size: 3rem; }
+}  
+
+.ks-novedades-bg {
+  background: linear-gradient(135deg, #0d0d0d 0%, #0f1923 100%);
+}
+.ks-novedades-bg .ks-divider { background: var(--ks-accent2); }
+
+.badge-outlet { background: #6c757d; color: #fff; }
+
+.ks-outlet-banner {
+  background: linear-gradient(90deg, var(--ks-accent) 0%, #c1121f 100%);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+}
